@@ -12,11 +12,12 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,SampleAdapter.OnItemClickLitener {
 
     private static final String TAG = "MainActivity";
     private SwipeRefreshLayout mSwipeRefreshWidget;
@@ -61,6 +62,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mSwipeRefreshWidget = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_widget);
         mRecyclerView = (RecyclerView) findViewById(android.R.id.list);
         mProgressbar = (LinearLayout) findViewById(R.id.progressbar);
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));//为条目添加分割线
+
+
+
+
+
         initData1();
 
         //刷新按钮变色
@@ -108,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         adapter = new SampleAdapter(MainActivity.this, dataList);
         mRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickLitener(this);//设置接口回调
 
     }
 
@@ -144,4 +154,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(MainActivity.this, position + " click",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) {
+        Toast.makeText(MainActivity.this, position + " long click",
+                Toast.LENGTH_SHORT).show();
+//        adapter.removeData(position);
+    }
 }

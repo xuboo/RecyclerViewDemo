@@ -18,11 +18,23 @@ public class SampleAdapter extends RecyclerView.Adapter {
 
     public Context mContext;
     public List<Object> mList = new ArrayList<>();
+    private OnItemClickLitener mOnItemClickLitener;
 
 
     public SampleAdapter(Context context, List<Object> list) {
         mContext = context;
         mList.addAll(list);
+    }
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
+    {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
+
+    public interface OnItemClickLitener
+    {
+        void onItemClick(View view, int position);
+        void onItemLongClick(View view , int position);
     }
 
     @Override
@@ -53,8 +65,31 @@ public class SampleAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyHolder) {
-            MyHolder myHolder = (MyHolder) holder;
+            final MyHolder myHolder = (MyHolder) holder;
             myHolder.tv.setText((String) mList.get(position));
+            //通过回调，添加点击事件
+            if (mOnItemClickLitener != null) {
+                myHolder.tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = myHolder.getLayoutPosition();
+                        mOnItemClickLitener.onItemClick(myHolder.tv,pos);
+                    }
+                });
+
+                myHolder.tv.setOnLongClickListener(new View.OnLongClickListener()
+                {
+                    @Override
+                    public boolean onLongClick(View v)
+                    {
+                        int pos = myHolder.getLayoutPosition();
+                        mOnItemClickLitener.onItemLongClick(myHolder.tv, pos);
+                        return false;
+                    }
+                });
+            }
+
+
         } else if (holder instanceof LoadingHolder) {
 
         }
