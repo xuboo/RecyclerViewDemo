@@ -29,6 +29,8 @@ public class SampleAdapter extends RecyclerView.Adapter {
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
     {
         this.mOnItemClickLitener = mOnItemClickLitener;
+        Log.e(TAG, "远程第一次修改SampleAdapter");
+
     }
 
     public interface OnItemClickLitener
