@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));//为条目添加分割线
 
-
+        Log.e(TAG, "远程第一次修改MainActivity");
 
 
 
